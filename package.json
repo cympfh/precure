@@ -1,0 +1,25 @@
+{
+  "name": "precure",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "make run-precure"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cympfh/precure.git"
+  },
+  "author": "cympfh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cympfh/precure/issues"
+  },
+  "homepage": "https://github.com/cympfh/precure#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "socket.io": "^2.0.4",
+    "twitter": "^1.7.1",
+    "yamljs": "^0.3.0"
+  }
+}

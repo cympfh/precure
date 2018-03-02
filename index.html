@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
+    <title>precure</title>
+    <style>
+
+span {
+    color: #aaa;
+}
+small {
+    color: #ddd;
+}
+small > a {
+    color: #ddd;
+}
+a {
+    border-width: 0;
+}
+
+div#Z {
+    width: 99%;
+    max-height: 30%;
+}
+
+div#Z > a {
+    width: 10%;
+    display: inline-block;
+}
+
+div#Z > a:first-child {
+    width: 50%;
+    display: inline-block;
+}
+
+    </style>
+    <script>
+
+function make_tweet(data) {
+
+    const text = data.text
+        .replace(/\n/g, "<br>")
+        .replace(/@[a-zA-Z0-9_]+/g, function(a){return "<span style='color:red'>"+a+"</span>"})
+
+    var y = document.createElement('div');
+    y.className = 'box';
+    y.innerHTML = `
+  <article class="media">
+    <div class="media-left">
+      <figure class="image is-64x64">
+      <img src="${data.image}" alt="Image">
+      </figure>
+    </div>
+    <div class="media-content">
+      <div class="content">
+        <p>
+        <strong>${data.name}</strong> <span>@${data.id}</span>
+          <br>
+          ${text}
+        </p>
+      </div>
+    </div>
+  </article>
+`;
+
+    var X = document.getElementById('X');
+    X.insertBefore(y, X.firstChild);
+    while (X.children.length > 10) { X.removeChild(X.children[X.children.length - 1]); }
+}
+
+function make_image(url) {
+    var y = document.createElement('a');
+    y.href = url;
+    y.target = "_blank";
+    y.innerHTML = `<img src="${url}" />`;
+    var Z = document.getElementById('Z');
+    Z.insertBefore(y, Z.firstChild);
+    while (Z.children.length > 4) { Z.removeChild(Z.children[Z.children.length - 1]); }
+}
+
+var socket = io.connect("@MYSELF");
+socket.on('tweet', make_tweet);
+socket.on('image', make_image);
+
+function post(){
+    socket.emit("post", {text: document.getElementById("Y").value});
+    document.getElementById("Y").value = "";
+    return false;
+}
+    </script> </head>
+
+<body>
+
+    <section class="section">
+        <div class="container">
+
+            <h1 class="title">precure <small><a href="/unddich">/unddich</a></small></h1>
+
+            <div class="field has-addons">
+                <div class="control">
+                    <input id="Y" class="input" placeholder="tweet" />
+                </div>
+                <div class="control">
+                  <input class="button is-primary" type="button" onclick=post() value="tweet">
+                </div>
+            </div>
+            <div id="Z"></div><hr />
+            <div id="X"></div><hr />
+
+            <p><a href="https://github.com/cympfh/precure/">what is this?</a></p>
+        </div>
+    <section>
+
+
+    <script>
+
+make_tweet({
+    text: "上に行くほど新しい",
+    image: "https://pbs.twimg.com/profile_images/767182141893455872/Y1jUi5tF_400x400.jpg",
+    name: "info",
+    id: "info"
+});
+
+make_tweet({
+    text: "鯖側を気分で再起動するとTL止まるので、そしたらリロードして",
+    image: "https://pbs.twimg.com/profile_images/767182141893455872/Y1jUi5tF_400x400.jpg",
+    name: "info",
+    id: "info"
+});
+    </script>
+
+</body>
+</html>
