@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "make run-precure"
+    "start": "bash precure.sh"
   },
   "repository": {
     "type": "git",
