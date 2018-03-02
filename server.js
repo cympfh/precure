@@ -15,6 +15,9 @@ var buffer = {tweets: [], images: []};
 var myself = null;
 var sockets = [];
 
+const num_images = 5;
+const num_tweets = 20;
+
 
 /*
  * Get My IP
@@ -45,7 +48,7 @@ function shuffle(str) {
 
 function push_image(url) {
     buffer.images.push(url);
-    if (buffer.images.length > 10) { buffer.images.shift(); }
+    if (buffer.images.length > num_images) { buffer.images.shift(); }
     for (var i in sockets) { sockets[i].emit('image', url); }
 }
 
@@ -57,7 +60,7 @@ function push_tweet(data) {
         text: data.text
     };
     buffer.tweets.push(payload);
-    if (buffer.tweets.length > 10) { buffer.tweets.shift(); }
+    if (buffer.tweets.length > num_tweets) { buffer.tweets.shift(); }
     for (var i in sockets) { sockets[i].emit('tweet', payload); }
 }
 
