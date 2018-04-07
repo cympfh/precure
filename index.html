@@ -41,7 +41,10 @@ div#Z > a:first-child {
     </style>
     <script>
 
+var sampling_ratio = 0.1;
 function make_tweet(data) {
+
+    if (Math.random() > sampling_ratio) return;
 
     const text = data.text
         .replace(/\n/g, "<br>")
@@ -73,7 +76,9 @@ function make_tweet(data) {
     while (X.children.length > 10) { X.removeChild(X.children[X.children.length - 1]); }
 }
 
+var image_sampling_ratio = 0.5;
 function make_image(url) {
+    if (Math.random() > image_sampling_ratio) return;
     var y = document.createElement('a');
     y.href = url;
     y.target = "_blank";
