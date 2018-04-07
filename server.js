@@ -32,6 +32,13 @@ http.get('http://httpbin.org/ip', (response) => {
     });
 });
 
+function is_muted(data) {
+    for (var kw of config.mute_keywords) {
+        if (data.text.indexOf(kw) >= 0) return true;
+    }
+    return false;
+}
+
 function shuffle(str) {
     var chars = str.split('');
     for (var i = chars.length - 2; i >= 0; --i) {
@@ -98,6 +105,7 @@ client.stream('statuses/filter', {track: keyword}, stream => {
         last_time = (new Date()).getTime();
         if (!data || !data.user || !data.text) return;
         if (data.retweeted_status) return;  // when RT
+        if (is_muted(data)) return;
 
         // buffering & emitting
         push_tweet(data);
