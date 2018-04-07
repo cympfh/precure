@@ -77,10 +77,14 @@ function make_image(url) {
     var y = document.createElement('a');
     y.href = url;
     y.target = "_blank";
-    y.innerHTML = `<img src="${url}" />`;
-    var Z = document.getElementById('Z');
-    Z.insertBefore(y, Z.firstChild);
-    while (Z.children.length > 4) { Z.removeChild(Z.children[Z.children.length - 1]); }
+    var img = new Image();
+    img.src = url;
+    img.onload = function() {
+        y.appendChild(img);
+        var Z = document.getElementById('Z');
+        Z.insertBefore(y, Z.firstChild);
+        while (Z.children.length > 4) { Z.removeChild(Z.children[Z.children.length - 1]); }
+    };
 }
 
 var socket = io.connect("@MYSELF");
